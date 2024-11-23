@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Loja Online</h1>
+        <div class="carrinho-badge">
+            <a href="#">
+                <i class="bi bi-cart icone-carrinho"></i>
+                <span class="contador">3</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="carrinho">
+
+        <!-- item 1 -->
+        <div class="item-carrinho">
+            <div class="item">
+                <img src="https://picsum.photos/300/500" alt="Imagem do Produto" class="item-img">
+                <div class="item-info">
+                    <h2>Nome do Produto</h2>
+                    <p class="preco">R$ 50,00</p>
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
+                </div>
+            </div>
+
+            <button class="botao-remover">Remover</button>
+        </div>
+
+        <!-- item 2 -->
+        <div class="item-carrinho">
+            <div class="item">
+                <img src="https://picsum.photos/300/500" alt="Imagem do Produto" class="item-img">
+                <div class="item-info">
+                    <h2>Nome do Produto</h2>
+                    <p class="preco">R$ 50,00</p>
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
+                </div>
+            </div>
+
+            <button class="botao-remover">Remover</button>
+        </div>
+
+        <div class="total">
+            <p>Total: R$ 50,00</p>
+            <button class="botao-comprar">Finalizar Compra</button>
+        </div>
+    </main>
+
+    <script>
+        
+        let carrinho=localStorage.getItem("carrinho");
+        carrinho=JSON.parse(carrinho);
+        console.log(carrinho);
+
+    </script>
+
+</body>
+
+</html>
