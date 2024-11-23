@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja - Produtos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Loja Online</h1>
+        <div class="carrinho-badge">
+          <a href="carrinho.html">
+            <i class="bi bi-cart icone-carrinho"></i>
+            <span class="contador">3</span>
+          </a>
+        </div>
+      </header>
+
+  <main class="lista-produtos">
+    <div class="produto-item">
+      <img src="https://picsum.photos/300/500" alt="Produto 1" class="produto-img">
+      <h2>Produto 1</h2>
+      <p class="preco">R$ 50,00</p>
+      <a href="carrinho.html" class="botao">Adicionar ao Carrinho</a>
+    </div>
+    
+    <div class="produto-item">
+      <img src="https://picsum.photos/300/500" alt="Produto 2" class="produto-img">
+      <h2>Produto 2</h2>
+      <p class="preco">R$ 75,00</p>
+      <a href="carrinho.html" class="botao">Adicionar ao Carrinho</a>
+    </div>
+    
+    <div class="produto-item">
+      <img src="https://picsum.photos/300/500" alt="Produto 3" class="produto-img">
+      <h2>Produto 3</h2>
+      <p class="preco">R$ 100,00</p>
+      <a href="carrinho.html" class="botao">Adicionar ao Carrinho</a>
+    </div>
+
+    <div class="produto-item">
+      <img src="https://picsum.photos/300/500" alt="Produto 4" class="produto-img">
+      <h2>Produto 4</h2>
+      <p class="preco">R$ 125,00</p>
+      <a href="carrinho.html" class="botao">Adicionar ao Carrinho</a>
+    </div>
+</main>
+
+<script>
+
+    const produtoItemNome=document.querySelectorAll('.produto-item h2');
+    const produtoItemPreco=document.querySelectorAll('.produto-item p');
+    const produtoItemBtn=document.querySelectorAll('.produto-item a');
+
+    for (let index=0; index<4; index++){
+
+        produtoItemBtn[index].addEventListener('click', (event)=>{
+
+            event.preventDefault(); //para evitar que o link vá para a página antes de executa a lógica
+            let carrinho=obterTodosProdutos();
+            let produtoJaExiste=false;
+
+            for (let j = 0; j < carrinho.length; j++) {
+              
+              if(carrinho[j].nome==produtoItemNome[index].textContent) {
+
+                carrinho[j].quantidade++;
+                //carrinho.push(p);
+                produtoJaExiste=true;
+
+              }
+
+            }
+
+            carrinho.forEach(p => {
+              
+              
+
+            });
+
+            if(produtoJaExiste==false){
+
+              let produto = {
+
+                "nome": produtoItemNome[index].textContent,
+                "preço": produtoItemPreco[index].textContent,
+                "quantidade": 1
+
+              }
+
+              carrinho.push(produto);
+
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho))
+
+        });
+
+    }
+
+    function obterTodosProdutos(){
+
+        let carrinho=JSON.parse(localStorage.getItem('carrinho'));
+
+        console.log(carrinho);
+
+        if(carrinho==null || carrinho.length<1){
+
+            carrinho=[];
+            
+        }
+
+        return carrinho;
+
+    } 
+
+</script>
+
+</body>
+</html>
