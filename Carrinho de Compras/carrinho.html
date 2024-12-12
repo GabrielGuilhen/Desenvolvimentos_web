@@ -21,47 +21,118 @@
 
     <main class="carrinho">
 
-        <!-- item 1 -->
-        <div class="item-carrinho">
-            <div class="item">
-                <img src="https://picsum.photos/300/500" alt="Imagem do Produto" class="item-img">
-                <div class="item-info">
-                    <h2>Nome do Produto</h2>
-                    <p class="preco">R$ 50,00</p>
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                </div>
-            </div>
+        <div class="carrinho-produtos">
+            
+            <!-- Criação dos produtos do storage -->
 
-            <button class="botao-remover">Remover</button>
-        </div>
-
-        <!-- item 2 -->
-        <div class="item-carrinho">
-            <div class="item">
-                <img src="https://picsum.photos/300/500" alt="Imagem do Produto" class="item-img">
-                <div class="item-info">
-                    <h2>Nome do Produto</h2>
-                    <p class="preco">R$ 50,00</p>
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                </div>
-            </div>
-
-            <button class="botao-remover">Remover</button>
         </div>
 
         <div class="total">
-            <p>Total: R$ 50,00</p>
+            <p>Total: <span class="total-compra"></span></p>
             <button class="botao-comprar">Finalizar Compra</button>
         </div>
     </main>
 
     <script>
+
+        let carrinho = localStorage.getItem("carrinho");
         
-        let carrinho=localStorage.getItem("carrinho");
-        carrinho=JSON.parse(carrinho);
-        console.log(carrinho);
+        carrinho = JSON.parse(carrinho);
+        console.log(carrinho)
+
+        elementosNoCarrinho = carrinho.length;
+
+        for (let i = 0; i < elementosNoCarrinho; i++) {            
+            criarItemCarrinho(carrinho[i]);
+        }
+
+        function criarItemCarrinho(itemLista) {
+            
+            let itemCarrinho = document.createElement('div');
+            itemCarrinho.classList.add('item-carrinho');
+
+            let item = document.createElement('div');
+            item.classList.add('item');
+
+            let imagem = document.createElement('img');
+            imagem.src = "https://picsum.photos/300/500";
+            imagem.classList.add("item-img");
+
+            item.appendChild(imagem);
+
+            let itemInfo = document.createElement('div');
+            itemInfo.classList.add('item-info');
+
+            let nomeProduto = document.createElement('h2');
+            nomeProduto.textContent = itemLista.nome;
+
+            let precoProduto = document.createElement('p');
+            precoProduto.classList.add('preco');
+            precoProduto.textContent = itemLista.preço;
+
+            let quantidadeProduto = document.createElement('input');
+            quantidadeProduto.id = "quantidade"
+            quantidadeProduto.type = "number"
+            quantidadeProduto.value = itemLista.quantidade;
+
+            itemInfo.appendChild(nomeProduto);
+            itemInfo.appendChild(precoProduto);
+            itemInfo.appendChild(quantidadeProduto);
+
+            let botaoRemover = document.createElement('button');
+            botaoRemover.classList.add('botao-remover');
+            botaoRemover.textContent = 'Remover';
+            
+            item.appendChild(itemInfo);
+            itemCarrinho.appendChild(item);
+            itemCarrinho.appendChild(botaoRemover);
+
+            let carrinho = document.querySelector('.carrinho-produtos');
+            carrinho.appendChild(itemCarrinho);
+
+            botaoRemover.addEventListener('click', ()=>{
+                itemCarrinho.remove(itemCarrinho);
+
+                let carrinho = localStorage.getItem('carrinho');
+                carrinho = JSON.parse(carrinho);
+
+                carrinho.forEach((produto, index) => {
+                    if (produto.nome == itemLista.nome) {
+                        carrinho.splice(index, 1);
+                    }
+                });
+
+                carrinho = JSON.stringify(carrinho);
+                localStorage.setItem('carrinho', carrinho);
+
+            });
+        }
+
+        function atualizarTotal(){
+
+            let total = 0;
+
+            let carrinho = localStorage.getItem('carrinho');
+            carrinho = JSON.parse(carrinho);
+
+            carrinho.forEach((produto)=> {
+
+                let preco = (produto.preço);
+                preco = preco.replace('R$', '');
+                preco = preco.replace(',',  '.');
+
+                let quantidade = produto.quantidade;
+
+                total = total + (quantidade * preco);
+
+            });
+
+            let totalCompra = document.querySelector('.total-compra');
+            totalCompra.textContent = total;
+
+        }
+
+        atualizarTotal();
 
     </script>
 
