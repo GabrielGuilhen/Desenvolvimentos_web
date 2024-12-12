@@ -18,6 +18,7 @@
       </header>
 
   <main class="lista-produtos">
+    
     <div class="produto-item">
       <img src="https://picsum.photos/300/500" alt="Produto 1" class="produto-img">
       <h2>Produto 1</h2>
@@ -45,77 +46,66 @@
       <p class="preco">R$ 125,00</p>
       <a href="carrinho.html" class="botao">Adicionar ao Carrinho</a>
     </div>
-</main>
+  </main>
 
-<script>
+  <script>
 
-    const produtoItemNome=document.querySelectorAll('.produto-item h2');
-    const produtoItemPreco=document.querySelectorAll('.produto-item p');
-    const produtoItemBtn=document.querySelectorAll('.produto-item a');
+    const produtoItemNome  = document.querySelectorAll('.produto-item h2');
+    const produtoItemPreco = document.querySelectorAll('.produto-item .preco');
+    const produtoItemBtn   = document.querySelectorAll('.produto-item a');
 
-    for (let index=0; index<4; index++){
+    for (let index = 0; index < 4; index++) {
+      
+      produtoItemBtn[index].addEventListener('click', (evento) => {
 
-        produtoItemBtn[index].addEventListener('click', (event)=>{
+      evento.preventDefault(); //para evitar que o link vá para a página antes de executar a logica
 
-            event.preventDefault(); //para evitar que o link vá para a página antes de executa a lógica
-            let carrinho=obterTodosProdutos();
-            let produtoJaExiste=false;
+      let carrinho = obterTodosProdutos();
 
-            for (let j = 0; j < carrinho.length; j++) {
-              
-              if(carrinho[j].nome==produtoItemNome[index].textContent) {
+      let produtoJaExiste = false;
 
-                carrinho[j].quantidade++;
-                //carrinho.push(p);
-                produtoJaExiste=true;
+      for (let j = 0; j < carrinho.length; j++) {
 
-              }
+        if (carrinho[j].nome == produtoItemNome[index].textContent) {
 
-            }
+          console.log(carrinho[j].nome)
 
-            carrinho.forEach(p => {
-              
-              
+          carrinho[j].quantidade++;
+          produtoJaExiste = true;
+        }
+      }
 
-            });
+      if(produtoJaExiste == false){
+        
+        let produto = {
+          "nome": produtoItemNome[index].textContent,
+          "preço": produtoItemPreco[index].textContent,
+          "quantidade": 1
+        }
 
-            if(produtoJaExiste==false){
+        carrinho.push(produto);
+      }
 
-              let produto = {
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
-                "nome": produtoItemNome[index].textContent,
-                "preço": produtoItemPreco[index].textContent,
-                "quantidade": 1
-
-              }
-
-              carrinho.push(produto);
-
-            }
-
-            localStorage.setItem('carrinho', JSON.stringify(carrinho))
-
-        });
+      });
 
     }
 
+
     function obterTodosProdutos(){
 
-        let carrinho=JSON.parse(localStorage.getItem('carrinho'));
+      let carrinho = JSON.parse(localStorage.getItem('carrinho'));
+      console.log(carrinho)
 
-        console.log(carrinho);
+      if(carrinho == null || carrinho.length < 1){
+        carrinho = [];
+      }
 
-        if(carrinho==null || carrinho.length<1){
+      return carrinho;
 
-            carrinho=[];
-            
-        }
+    }
 
-        return carrinho;
-
-    } 
-
-</script>
-
+  </script>
 </body>
 </html>
