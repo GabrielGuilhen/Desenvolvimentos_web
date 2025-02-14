@@ -16,4 +16,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function toggleMenu(element){
     // Alternar a visibilidade do menu em telas pequenas
-    d
+}   
